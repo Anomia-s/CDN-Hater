@@ -2,7 +2,6 @@ import { Client, Intents } from "discord.js";
 import { config } from "dotenv";
 import fs from "fs";
 import Log from "./util/Log.js";
-import chalk from "chalk";
 /**
  * Only .env variable is TOKEN
  */
