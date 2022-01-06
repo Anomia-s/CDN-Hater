@@ -2,7 +2,7 @@ import chalk from "chalk";
 
 const log = console.log;
 
-export class Log {
+export default class Log {
   static info(msg) {
     log(`[${chalk.green("INFO")}] -- ${Date.now()} -- [Anomia] -- ${msg}`);
   }

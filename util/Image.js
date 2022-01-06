@@ -1,3 +1,6 @@
+import fetch from "node-fetch";
+import Log from "./Log.js";
+import fs from 'fs'
 export default async function downloadImage(link, id) {
   const imageBuffer = await fetch(link);
   let ext = link.split(".").pop();

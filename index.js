@@ -1,8 +1,7 @@
 import { Client, Intents } from "discord.js";
 import { config } from "dotenv";
 import fs from "fs";
-import fetch from "node-fetch";
-import { Log } from "./util/Log.js";
+import Log from "./util/Log.js";
 import chalk from "chalk";
 import Image from "./util/Image.js";
 /**
