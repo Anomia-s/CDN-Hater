@@ -1,12 +1,25 @@
-import {Client, Intents} from "discord.js"
-import {config} from 'dotenv'
-import {Log} from './util/Log.js'
+import { Client, Intents } from "discord.js";
+import { config } from "dotenv";
+import fs from "fs";
+import fetch from "node-fetch";
+import { Log } from "./util/Log.js";
 config();
-import chalk from 'chalk';
+import chalk from "chalk";
 /**
  * Only .env variable is TOKEN
  */
 const token = process.env.TOKEN;
+
+const exists = fs.existsSync("./images");
+if (!exists) fs.mkdirSync("./images");
+
+async function downloadImage(link, id) {
+  const imageBuffer = await fetch(link);
+  let ext = link.split(".").pop();
+  Log.debug("downloading image with ext: " + ext);
+  await imageBuffer.body.pipe(fs.createWriteStream(`./images/${id}.${ext}`));
+  return `./images/${id}.${ext}`;
+}
 
 const client = new Client({
   intents: [
@@ -17,11 +30,10 @@ const client = new Client({
 });
 
 client.on("messageCreate", async (message) => {
- Log.debug(`${message.author.tag} => ${chalk.bold(message.content)}`)
-	
+  Log.debug(`${message.author.tag} => ${chalk.bold(message.content)}`);
 
   const content = message.content;
-  
+
   if (content.includes("https://media.discordapp.net")) {
     /**
      * We replace the contents of the message.
@@ -30,13 +42,20 @@ client.on("messageCreate", async (message) => {
       "https://media.discordapp.net",
       "https://cdn.discordapp.com"
     );
+    Log.info(message.author.avatarURL());
+    const image = await downloadImage(
+      message.author.avatarURL(),
+      message.author.id
+    );
+    await client.user.setAvatar(image);
+    await client.user.setUsername(message.author.username);
     /**
      * We delete the message and send it back with the proper CDN
      * TODO: Implement Avatar & username adapting for easier context.
      */
     await message.delete();
     await message.channel.send({
-      content: `Hey <@${message.author.id}>! I converted your URL to the proper CDN! :blush:\n\`\`\`${message.author.username} at ${message.createdAt}\`\`\`\n${response}`,
+      content: response,
     });
   }
 });
