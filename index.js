@@ -21,8 +21,6 @@ const client = new Client({
 });
 
 client.on("messageCreate", async (message) => {
-  Log.debug(`${message.author.tag} => ${chalk.bold(message.content)}`);
-
   const content = message.content;
 
   if (content.includes("https://media.discordapp.net")) {
@@ -35,10 +33,10 @@ client.on("messageCreate", async (message) => {
     );
 
     try {
-        await client.user.setUsername(message.author.username);
-        await message.delete();
-        await message.channel.send({
-          content: response,
+      await message.guild.members.cache.get(client.user.id).setNickname(message.author.username);
+      await message.delete();
+      await message.channel.send({
+        content: `${response}\n\n\`This mesage was sent by a bot.\``,
       });
     } catch (e) {
       Log.error(e);
