@@ -3,7 +3,6 @@ import { config } from "dotenv";
 import fs from "fs";
 import Log from "./util/Log.js";
 import chalk from "chalk";
-import Image from "./util/Image.js";
 /**
  * Only .env variable is TOKEN
  */
@@ -28,23 +27,23 @@ client.on("messageCreate", async (message) => {
 
   if (content.includes("https://media.discordapp.net")) {
     /**
-     * We replace the contents of the message.
+     * Replaced conents of a message.
      */
     let response = content.replace(
       "https://media.discordapp.net",
       "https://cdn.discordapp.com"
     );
-    Log.info(message.author.avatarURL());
-    const userImage = await Image(
-      message.author.avatarURL(),
-      message.author.id
-    );
-    await client.user.setAvatar(userImage);
-    await client.user.setUsername(message.author.username);
-    await message.delete();
-    await message.channel.send({
-      content: response,
-    });
+
+    try {
+        await client.user.setUsername(message.author.username);
+        await message.delete();
+        await message.channel.send({
+          content: response,
+      });
+    } catch (e) {
+      Log.error(e);
+      message.channel.send("An unexepected error happened! :(");
+    }
   }
 });
 /**
