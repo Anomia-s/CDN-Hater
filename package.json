@@ -6,7 +6,8 @@
     "discord-api-types": "^0.26.1",
     "discord.js": "^13.5.0",
     "dotenv": "^10.0.0",
-    "node-fetch": "^3.1.0"
+    "node-fetch": "^3.1.0",
+    "prettier": "^2.5.1"
   },
   "type": "module",
   "name": "i-hate-media",

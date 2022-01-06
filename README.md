@@ -1,4 +1,5 @@
 # I-Hate-Media
+
 A simple but effective Discord bot that changes media with cdn url's for discord.
 
 When you copy the link of an image or a video, discord will copy it to their `media.discord.net` domain, but this domain does not load videos or images properly.
