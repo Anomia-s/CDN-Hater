@@ -2,7 +2,6 @@
 
 A simple but effective Discord bot that changes media with cdn url's for discord.
 
-When you copy the link of an image or a video, discord will copy it to their `media.discord.net` domain, but this domain does not load videos or images properly.
-This bot replaces the domains with `cdn.discord.com` for it to work properly.
+Sometimes, Discord will use their media.discord.net domain, which is used to display contents such as images, docs, and videos through discord. Only issue is that when it comes to videos, these won't work. This bot all media.discord.net domains with cdn.discord.com (Which always work and shares same data).
 
 Idea from a discord server for saucing mangas and memes, most of the times they have to ask the users to change their links.
