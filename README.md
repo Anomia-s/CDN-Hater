@@ -1,4 +1,4 @@
-# Jessica
+# CDN Hater
 
 A simple yet effective Discord bot that changes the old CDN URL in attachments to the newest one.
 
