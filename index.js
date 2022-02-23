@@ -8,45 +8,30 @@ import Log from "./util/Log.js";
 config();
 const token = process.env.TOKEN;
 
-const exists = fs.existsSync("./images");
-if (!exists) fs.mkdirSync("./images");
+if (!fs.existsSync("./images")) fs.mkdirSync("./images");
 
 const client = new Client({
-  intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-  ],
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 
 client.on("messageCreate", async (message) => {
-  const content = message.content;
-
-  if (content.includes("https://media.discordapp.net")) {
-    /**
-     * Replaced conents of a message.
-     */
-    let response = content.replace(
+  if (message.content.includes("https://media.discordapp.net")) {
+    const response = content.replace(
       "https://media.discordapp.net",
       "https://cdn.discordapp.com"
     );
 
-    try {
-      await message.guild.members.cache.get(client.user.id).setNickname(message.author.username);
-      await message.delete();
-      await message.channel.send({
+    await message
+      .delete()
+      .catch((err) => message.channel.send("Error deleting the message!"));
+    await message.channel
+      .send({
         content: `${response}\n\n\`This mesage was sent by a bot.\``,
-      });
-    } catch (e) {
-      Log.error(e);
-      message.channel.send("An unexepected error happened! :(");
-    }
+      })
+      .catch((err) => message.channel.send("Error replying!"));
   }
 });
-/**
- * Just logging in!
- */
-client.once("ready", () => {
-  Log.info("Logging...!");
-});
+
+client.once("ready", () => Log.info("Logging...!"));
 
 client.login(token);
